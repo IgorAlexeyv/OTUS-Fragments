@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Button
 import androidx.activity.OnBackPressedCallback
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 
 class FragmentA : Fragment(R.layout.fragment_a) {
 
@@ -25,6 +27,9 @@ class FragmentA : Fragment(R.layout.fragment_a) {
         super.onViewCreated(view, savedInstanceState)
         val button = view.findViewById<Button>(R.id.buttonOpenFragmentAA)
         button.setOnClickListener{
+            setFragmentResult("toFragmentAA",
+                bundleOf("color" to ColorGenerator.generateColor()))
+
             parentFragmentManager.beginTransaction()
                 .replace(R.id.containerActivityA, FragmentAA())
                 .addToBackStack("")

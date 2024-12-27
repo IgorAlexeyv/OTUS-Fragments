@@ -3,11 +3,28 @@ package otus.gpb.homework.fragments
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
+import androidx.fragment.app.setFragmentResultListener
 
 class FragmentAB : Fragment(R.layout.fragment_ab) {
 
-   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-       super.onViewCreated(view, savedInstanceState)
-       view.setBackgroundColor(ColorGenerator.generateColor())
+    private var color: Int? = null
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        if(savedInstanceState != null) {
+            color = savedInstanceState.getInt("color")
+            color?.let{view.setBackgroundColor(it)}
+        }
+
+       setFragmentResultListener("toFragmentAB") { _, bundle ->
+           color = bundle.getInt("color")
+           color?.let{view.setBackgroundColor(it)}
+       }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        color?.let{ outState.putInt("color", it) }
     }
 }
