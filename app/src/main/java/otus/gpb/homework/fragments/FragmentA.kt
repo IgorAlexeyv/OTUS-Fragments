@@ -27,11 +27,13 @@ class FragmentA : Fragment(R.layout.fragment_a) {
         super.onViewCreated(view, savedInstanceState)
         val button = view.findViewById<Button>(R.id.buttonOpenFragmentAA)
         button.setOnClickListener{
-            setFragmentResult("toFragmentAA",
-                bundleOf("color" to ColorGenerator.generateColor()))
+            val bundle = Bundle()
+            bundle.putInt("toFragmentAA", ColorGenerator.generateColor())
+            val fragment = FragmentAA()
+            fragment.setArguments(bundle)
 
             parentFragmentManager.beginTransaction()
-                .replace(R.id.containerActivityA, FragmentAA())
+                .replace(R.id.containerActivityA, fragment)
                 .addToBackStack("")
                 .commit()
         }

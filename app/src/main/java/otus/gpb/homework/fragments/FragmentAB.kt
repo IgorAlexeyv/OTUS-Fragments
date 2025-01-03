@@ -14,13 +14,10 @@ class FragmentAB : Fragment(R.layout.fragment_ab) {
 
         if(savedInstanceState != null) {
             color = savedInstanceState.getInt("color")
-            color?.let{view.setBackgroundColor(it)}
+        } else {
+            color = getArguments()?.getInt("colorToFragmentAB")
         }
-
-       setFragmentResultListener("toFragmentAB") { _, bundle ->
-           color = bundle.getInt("color")
-           color?.let{view.setBackgroundColor(it)}
-       }
+        color?.let{view.setBackgroundColor(it)}
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

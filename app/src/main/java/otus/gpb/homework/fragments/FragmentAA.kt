@@ -17,25 +17,21 @@ class FragmentAA : Fragment(R.layout.fragment_aa) {
 
         if( savedInstanceState != null ) {
             color = savedInstanceState.getInt("color")
+        } else {
+            color = getArguments()?.getInt("toFragmentAA")
         }
-
         color?.let{ view.setBackgroundColor(it) }
 
        val button = view.findViewById<Button>(R.id.buttonOpenFragmentAB)
        button.setOnClickListener(){
-           setFragmentResult("toFragmentAB",
-               bundleOf("color" to ColorGenerator.generateColor())
-           )
-
+           val bundle = Bundle()
+           bundle.putInt("colorToFragmentAB", ColorGenerator.generateColor())
+           val fragment = FragmentAB()
+           fragment.setArguments(bundle)
            parentFragmentManager.beginTransaction()
-               .replace(R.id.containerActivityA, FragmentAB())
+               .replace(R.id.containerActivityA, fragment)
                .addToBackStack("")
                .commit()
-       }
-
-       setFragmentResultListener("toFragmentAA") { _, bundle ->
-           color = bundle.getInt("color")
-           color?.let{ view.setBackgroundColor(it) }
        }
     }
 
